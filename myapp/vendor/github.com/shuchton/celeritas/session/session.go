@@ -2,6 +2,7 @@ package session
 
 import (
 	"database/sql"
+	"github.com/alexedwards/scs/mysqlstore"
 	"github.com/alexedwards/scs/postgresstore"
 	"net/http"
 	"strconv"
@@ -43,7 +44,9 @@ func (c *Session) InitSession() *scs.SessionManager {
 	// which session store?
 	switch strings.ToLower(c.SessionType) {
 	case "redis":
+
 	case "mysql", "mariadb":
+		session.Store = mysqlstore.New(c.DBPool)
 	case "postgres", "postgresql":
 		session.Store = postgresstore.New(c.DBPool)
 	default:

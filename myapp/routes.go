@@ -23,6 +23,9 @@ func (a *application) routes() *chi.Mux {
 	a.App.Routes.Post("/users/login", a.Handlers.PostUserLogin)
 	a.App.Routes.Get("/users/logout", a.Handlers.Logout)
 
+	a.App.Routes.Get("/form", a.Handlers.Form)
+	a.App.Routes.Post("/form", a.Handlers.PostForm)
+
 	a.App.Routes.Get("/create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{
 			FirstName: "Scott",
@@ -57,6 +60,15 @@ func (a *application) routes() *chi.Mux {
 		id, _ := strconv.Atoi(chi.URLParam(r, "id"))
 		u, _ := a.Models.Users.Get(id)
 		u.LastName = a.App.RandomString(10)
+		validator := a.App.Validator(nil)
+
+		u.Validate(validator)
+
+		if !validator.Valid() {
+			fmt.Fprint(w, "failed validation")
+			return
+		}
+
 		err := u.Update(*u)
 		if err != nil {
 			a.App.ErrorLog.Println(err)

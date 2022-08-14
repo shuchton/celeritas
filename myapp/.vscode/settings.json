@@ -19,8 +19,8 @@
         "titleBar.inactiveForeground": "#15202b99"
     },
     "peacock.color": "#a584f4",
-    "go.buildFlags": [
-        "-tags=unit,integration"
-    ],
-    "go.testTags": "unit,integration",
+    // "go.buildFlags": [
+    //     "-tags=unit,integration"
+    // ],
+    // "go.testTags": "unit,integration",
 }
