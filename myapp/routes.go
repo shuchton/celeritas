@@ -15,18 +15,18 @@ func (a *application) routes() *chi.Mux {
 	// add routes here
 
 	a.App.Routes.Get("/", a.Handlers.Home)
-	a.App.Routes.Get("/go-page", a.Handlers.GoPage)
-	a.App.Routes.Get("/jet-page", a.Handlers.JetPage)
-	a.App.Routes.Get("/sessions", a.Handlers.SessionTest)
+	a.get("/go-page", a.Handlers.GoPage)
+	a.get("/jet-page", a.Handlers.JetPage)
+	a.get("/sessions", a.Handlers.SessionTest)
 
-	a.App.Routes.Get("/users/login", a.Handlers.UserLogin)
-	a.App.Routes.Post("/users/login", a.Handlers.PostUserLogin)
-	a.App.Routes.Get("/users/logout", a.Handlers.Logout)
+	a.get("/users/login", a.Handlers.UserLogin)
+	a.post("/users/login", a.Handlers.PostUserLogin)
+	a.get("/users/logout", a.Handlers.Logout)
 
-	a.App.Routes.Get("/form", a.Handlers.Form)
+	a.get("/form", a.Handlers.Form)
 	a.App.Routes.Post("/form", a.Handlers.PostForm)
 
-	a.App.Routes.Get("/create-user", func(w http.ResponseWriter, r *http.Request) {
+	a.get("/create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{
 			FirstName: "Scott",
 			LastName:  "Huchton",
@@ -44,7 +44,7 @@ func (a *application) routes() *chi.Mux {
 		fmt.Fprintf(w, "%d: %s", id, u.FirstName)
 	})
 
-	a.App.Routes.Get("/get-all-users", func(w http.ResponseWriter, r *http.Request) {
+	a.get("/get-all-users", func(w http.ResponseWriter, r *http.Request) {
 		users, err := a.Models.Users.GetAll()
 		if err != nil {
 			a.App.ErrorLog.Println(err)
@@ -56,7 +56,7 @@ func (a *application) routes() *chi.Mux {
 		}
 	})
 
-	a.App.Routes.Get("/update-user/{id}", func(w http.ResponseWriter, r *http.Request) {
+	a.get("/update-user/{id}", func(w http.ResponseWriter, r *http.Request) {
 		id, _ := strconv.Atoi(chi.URLParam(r, "id"))
 		u, _ := a.Models.Users.Get(id)
 		u.LastName = a.App.RandomString(10)
@@ -78,7 +78,7 @@ func (a *application) routes() *chi.Mux {
 
 	})
 
-	a.App.Routes.Get("/get-user/{id}", func(w http.ResponseWriter, r *http.Request) {
+	a.get("/get-user/{id}", func(w http.ResponseWriter, r *http.Request) {
 		id, _ := strconv.Atoi(chi.URLParam(r, "id"))
 		u, _ := a.Models.Users.Get(id)
 		fmt.Fprintf(w, "%s %s %s", u.FirstName, u.LastName, u.Email)
