@@ -3,15 +3,20 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/gertd/go-pluralize"
-	"github.com/iancoleman/strcase"
-	"io/ioutil"
+	"os"
 	"strings"
 	"time"
+
+	"github.com/fatih/color"
+	"github.com/gertd/go-pluralize"
+	"github.com/iancoleman/strcase"
 )
 
 func doMake(arg2, arg3 string) error {
 	switch arg2 {
+	case "key":
+		rnd := cel.RandomString(32)
+		color.Yellow("32 character encryptions key: %s", rnd)
 	case "migration":
 		dbType := cel.DB.DataBaseType
 		if arg3 == "" {
@@ -55,7 +60,7 @@ func doMake(arg2, arg3 string) error {
 		handler := string(data)
 		handler = strings.ReplaceAll(handler, "$HANDLERNAME$", strcase.ToCamel(arg3))
 
-		err = ioutil.WriteFile(fileName, []byte(handler), 0644)
+		err = os.WriteFile(fileName, []byte(handler), 0644)
 		if err != nil {
 			exitGracefully(err)
 		}
@@ -90,6 +95,10 @@ func doMake(arg2, arg3 string) error {
 		model = strings.ReplaceAll(model, "$TABLENAME$", tableName)
 
 		err = copyDataToFile([]byte(model), fileName)
+
+		if err != nil {
+			exitGracefully(err)
+		}
 
 	case "session":
 		err := doSessionTable()

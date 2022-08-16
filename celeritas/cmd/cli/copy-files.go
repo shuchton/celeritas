@@ -3,7 +3,6 @@ package main
 import (
 	"embed"
 	"errors"
-	"io/ioutil"
 	"os"
 )
 
@@ -28,7 +27,7 @@ func copyFileFromTemplate(templatePath, targetFile string) error {
 }
 
 func copyDataToFile(data []byte, to string) error {
-	return ioutil.WriteFile(to, data, 0644)
+	return os.WriteFile(to, data, 0644)
 }
 
 func fileExists(fileToCheck string) bool {

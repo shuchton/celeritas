@@ -11,7 +11,7 @@ require (
 	github.com/jackc/pgconn v1.13.0
 	github.com/jackc/pgx/v4 v4.17.0
 	github.com/ory/dockertest/v3 v3.8.1
-	github.com/shuchton/celeritas v0.0.0-00010101000000-000000000000
+	github.com/shuchton/celeritas v0.0.0-20220816184749-1e9ec3d336eb
 	github.com/upper/db/v4 v4.5.2
 	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa
 )
