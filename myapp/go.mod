@@ -11,9 +11,9 @@ require (
 	github.com/jackc/pgconn v1.13.0
 	github.com/jackc/pgx/v4 v4.17.0
 	github.com/ory/dockertest/v3 v3.8.1
-	github.com/shuchton/celeritas v0.0.0-20220816184749-1e9ec3d336eb
+	github.com/shuchton/celeritas v0.0.0-20220816195442-b7e53a206f8d
 	github.com/upper/db/v4 v4.5.2
-	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa
+	golang.org/x/crypto v0.0.0-20220817183753-04dced17f71c
 )
 
 require (
@@ -34,6 +34,7 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang-migrate/migrate/v4 v4.15.2 // indirect
+	github.com/gomodule/redigo v1.8.9 // indirect
 	github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-multierror v1.1.1 // indirect

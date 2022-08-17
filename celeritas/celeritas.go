@@ -11,7 +11,9 @@ import (
 	"github.com/CloudyKit/jet/v6"
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-chi/chi/v5"
+	"github.com/gomodule/redigo/redis"
 	"github.com/joho/godotenv"
+	"github.com/shuchton/celeritas/cache"
 	"github.com/shuchton/celeritas/render"
 	"github.com/shuchton/celeritas/session"
 )
@@ -32,6 +34,7 @@ type Celeritas struct {
 	JetViews      *jet.Set
 	config        config
 	EncryptionKey string
+	Cache         cache.Cache
 }
 
 type config struct {
@@ -40,6 +43,7 @@ type config struct {
 	cookie      cookieConfig
 	sessionType string
 	database    databaseConfig
+	redis       redisConfig
 }
 
 func (c *Celeritas) New(rootPath string) error {
@@ -89,6 +93,11 @@ func (c *Celeritas) New(rootPath string) error {
 		}
 	}
 
+	if os.Getenv("CACHE") == "redis" {
+		myRedisCache := c.createClientRedisCache()
+		c.Cache = myRedisCache
+	}
+
 	c.InfoLog = infoLog
 	c.ErrorLog = errorLog
 	c.Debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
@@ -110,6 +119,11 @@ func (c *Celeritas) New(rootPath string) error {
 		database: databaseConfig{
 			database: os.Getenv("DATABASE_TYPE"),
 			dsn:      c.BuildDSN(),
+		},
+		redis: redisConfig{
+			host:     os.Getenv("REDIS_HOST"),
+			password: os.Getenv("REDIS_PASSWORD"),
+			prefix:   os.Getenv("REDIS_PREFIX"),
 		},
 	}
 
@@ -193,6 +207,32 @@ func (c *Celeritas) createRenderer() {
 		Port:     c.config.port,
 		JetViews: c.JetViews,
 		Session:  c.Session,
+	}
+}
+
+func (c *Celeritas) createClientRedisCache() *cache.RedisCache {
+	cacheClient := cache.RedisCache{
+		Conn:   c.createRedisPool(),
+		Prefix: c.config.redis.prefix,
+	}
+
+	return &cacheClient
+}
+
+func (c *Celeritas) createRedisPool() *redis.Pool {
+	return &redis.Pool{
+		MaxIdle:     50,
+		MaxActive:   10000,
+		IdleTimeout: 240 * time.Second,
+		Dial: func() (redis.Conn, error) {
+			return redis.Dial("tcp",
+				c.config.redis.host,
+				redis.DialPassword(c.config.redis.password))
+		},
+		TestOnBorrow: func(conn redis.Conn, t time.Time) error {
+			_, err := conn.Do("PING")
+			return err
+		},
 	}
 }
 
