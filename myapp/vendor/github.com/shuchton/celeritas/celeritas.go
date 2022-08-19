@@ -20,6 +20,8 @@ import (
 
 const version = "1.0.0"
 
+var myRedisCache *cache.RedisCache
+
 type Celeritas struct {
 	AppName       string
 	Debug         bool
@@ -93,8 +95,8 @@ func (c *Celeritas) New(rootPath string) error {
 		}
 	}
 
-	if os.Getenv("CACHE") == "redis" {
-		myRedisCache := c.createClientRedisCache()
+	if os.Getenv("CACHE") == "redis" || os.Getenv("SESSION_TYPE") == "redis" {
+		myRedisCache = c.createClientRedisCache()
 		c.Cache = myRedisCache
 	}
 
@@ -135,7 +137,13 @@ func (c *Celeritas) New(rootPath string) error {
 		CookieName:     c.config.cookie.name,
 		CookieDomain:   c.config.cookie.domain,
 		SessionType:    c.config.sessionType,
-		DBPool:         c.DB.Pool,
+	}
+
+	switch c.config.sessionType {
+	case "redis":
+		sess.RedisPool = myRedisCache.Conn
+	case "mysql", "postgres", "mariadb", "postgresql":
+		sess.DBPool = c.DB.Pool
 	}
 
 	c.Session = sess.InitSession()
@@ -144,7 +152,7 @@ func (c *Celeritas) New(rootPath string) error {
 
 	var views = jet.NewSet(
 		jet.NewOSFileSystemLoader(fmt.Sprintf("%s/views", rootPath)),
-		jet.InDevelopmentMode(),
+		// jet.InDevelopmentMode(),
 	)
 	c.JetViews = views
 	c.createRenderer()

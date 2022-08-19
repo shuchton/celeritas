@@ -11,9 +11,9 @@ require (
 	github.com/jackc/pgconn v1.13.0
 	github.com/jackc/pgx/v4 v4.17.0
 	github.com/ory/dockertest/v3 v3.8.1
-	github.com/shuchton/celeritas v0.0.0-20220816195442-b7e53a206f8d
+	github.com/shuchton/celeritas v0.0.0-20220817191640-8dffc2b64625
 	github.com/upper/db/v4 v4.5.2
-	golang.org/x/crypto v0.0.0-20220817183753-04dced17f71c
+	golang.org/x/crypto v0.0.0-20220817201139-bc19a97f63c8
 )
 
 require (
@@ -23,6 +23,7 @@ require (
 	github.com/Nvveen/Gotty v0.0.0-20120604004816-cd527374f1e5 // indirect
 	github.com/alexedwards/scs/mysqlstore v0.0.0-20220528130143-d93ace5be94b // indirect
 	github.com/alexedwards/scs/postgresstore v0.0.0-20220528130143-d93ace5be94b // indirect
+	github.com/alexedwards/scs/redisstore v0.0.0-20220528130143-d93ace5be94b // indirect
 	github.com/alexedwards/scs/v2 v2.5.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
 	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
@@ -46,6 +47,7 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/pgtype v1.12.0 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
+	github.com/justinas/nosurf v1.1.1 // indirect
 	github.com/lib/pq v1.10.6 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/moby/term v0.0.0-20210619224110-3f7ff695adc6 // indirect

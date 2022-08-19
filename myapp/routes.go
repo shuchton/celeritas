@@ -40,9 +40,9 @@ func (a *application) routes() *chi.Mux {
 
 	a.get("/create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{
-			FirstName: "Scott",
-			LastName:  "Huchton",
-			Email:     "shuchton@gmail.com",
+			FirstName: "Test",
+			LastName:  "User",
+			Email:     "me@here.com",
 			Active:    1,
 			Password:  "password",
 		}
@@ -53,7 +53,7 @@ func (a *application) routes() *chi.Mux {
 			return
 		}
 
-		fmt.Fprintf(w, "%d: %s", id, u.FirstName)
+		fmt.Fprintf(w, "Created (%d): %s %s", id, u.FirstName, u.LastName)
 	})
 
 	a.get("/get-all-users", func(w http.ResponseWriter, r *http.Request) {

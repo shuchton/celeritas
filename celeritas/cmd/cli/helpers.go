@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/fatih/color"
 	"github.com/joho/godotenv"
-	"os"
 )
 
 func setUp() {
+
 	err := godotenv.Load()
 	if err != nil {
 		exitGracefully(err)
@@ -61,7 +63,7 @@ func showHelp() {
     version               - print current version
     migrate               - runs all up migrations that have not been run previously
     migrate down          - reverses the most recent migration
-    migration reset       - runs all down migrations in reverse order and then all up migrations
+    migrate reset         - runs all down migrations in reverse order and then all up migrations
     make migration <name> - creates an up and down migration in the migrations folder
     make auth             - creates and runs migrations for authentication tables, and creates models and middleware
     make handler <name>   - creates a stub handler in the handlers directory
