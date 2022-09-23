@@ -8,6 +8,7 @@ require (
 	github.com/alexedwards/scs/postgresstore v0.0.0-20220528130143-d93ace5be94b
 	github.com/alexedwards/scs/v2 v2.5.0
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
+	github.com/dgraph-io/badger/v3 v3.2103.2
 	github.com/fatih/color v1.13.0
 	github.com/gertd/go-pluralize v0.2.1
 	github.com/go-chi/chi/v5 v5.0.7
@@ -17,12 +18,12 @@ require (
 	github.com/jackc/pgconn v1.12.0
 	github.com/jackc/pgx/v4 v4.16.0
 	github.com/joho/godotenv v1.4.0
+	github.com/robfig/cron/v3 v3.0.1
 )
 
 require (
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
-	github.com/dgraph-io/badger/v3 v3.2103.2 // indirect
 	github.com/dgraph-io/ristretto v0.1.0 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
@@ -33,7 +34,6 @@ require (
 	github.com/google/flatbuffers v2.0.0+incompatible // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/robfig/cron/v3 v3.0.1 // indirect
 	go.opencensus.io v0.23.0 // indirect
 	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
