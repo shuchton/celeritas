@@ -1,0 +1,2 @@
+cache/testdata/tmp/badger/*
+!cache/testdata/tmp/badger/.gitkeep
