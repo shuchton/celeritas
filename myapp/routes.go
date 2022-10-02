@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/shuchton/celeritas/mailer"
 )
 
 func (a *application) routes() *chi.Mux {
@@ -37,6 +38,34 @@ func (a *application) routes() *chi.Mux {
 	a.post("/api/get-from-cache", a.Handlers.GetFromCache)
 	a.post("/api/delete-from-cache", a.Handlers.DeleteFromCache)
 	a.post("/api/empty-cache", a.Handlers.EmptyCache)
+
+	a.get("/test-mail", func(w http.ResponseWriter, r *http.Request) {
+		msg := mailer.Message{
+			From:        "test@example.com",
+			To:          "you@there.com",
+			Subject:     "Test Subject - sent using func",
+			Template:    "test",
+			Attachments: nil,
+			Data:        nil,
+		}
+
+		// Option 1
+		a.App.Mail.Jobs <- msg
+		res := <-a.App.Mail.Results
+		if res.Error != nil {
+			a.App.ErrorLog.Println(res.Error)
+		}
+
+		// Option 2
+		// err := a.App.Mail.SendSMTPMessage(msg)
+		// if err != nil {
+		// 	a.App.ErrorLog.Println(err)
+		// 	fmt.Fprintf(w, "Send mail failed")
+		// 	return
+		// }
+
+		fmt.Fprintf(w, "Sent mail")
+	})
 
 	a.get("/create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{

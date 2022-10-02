@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 
@@ -96,6 +97,24 @@ func doMake(arg2, arg3 string) error {
 
 		err = copyDataToFile([]byte(model), fileName)
 
+		if err != nil {
+			exitGracefully(err)
+		}
+
+	case "mail":
+		if arg3 == "" {
+			exitGracefully(errors.New("you must give the mail template a name"))
+		}
+
+		htmlMail := filepath.Join(cel.RootPath, "mail", strings.ToLower(arg3)+".html.tmpl")
+		plainMail := filepath.Join(cel.RootPath, "mail", strings.ToLower(arg3)+".plain.tmpl")
+
+		err := copyFileFromTemplate("templates/mailer/mail.html.tmpl", htmlMail)
+		if err != nil {
+			exitGracefully(err)
+		}
+
+		err = copyFileFromTemplate("templates/mailer/mail.plain.tmpl", plainMail)
 		if err != nil {
 			exitGracefully(err)
 		}
